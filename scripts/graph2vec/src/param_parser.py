@@ -10,7 +10,7 @@ def parameter_parser():
     Representations are sorted by ID.
     """
     parser = argparse.ArgumentParser(description="Run Graph2Vec.")
-
+    parser.add_argument("-k", help="value of k",type=int,default=6)
     parser.add_argument("--input-path",
                         nargs="?",
                         default="./dataset/",
