@@ -1,0 +1,6 @@
+/.vscode
+/env
+/datasets/raw/Covid/*
+/datasets/raw/Influenza/*
+/datasets/processed
+/vocab/*
