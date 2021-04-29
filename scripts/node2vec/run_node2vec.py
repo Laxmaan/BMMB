@@ -12,7 +12,7 @@ def parse_args():
     '''
     Parses the node2vec arguments.
     '''
-    parser = argparse.ArgumentParser(description="Run node2vec.")
+    parser = ArgumentParser(description="Run node2vec.")
     parser.add_argument("-k", help="value of k",type=int,default=6)
     parser.add_argument('--roar', help='usage on Roar systems', action='store_true')
 
