@@ -75,8 +75,7 @@ def learn_embeddings(walks,outfile):
     walks = [list(map(str, walk)) for walk in walks]
     model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
     Path(outfile).parent.mkdir(exist_ok=True,parents = True)
-    vectors = model.wv.vectors_vocab
-    print(vectors.shape)
+    vectors = model.wv.get_normed_vectors()
     emb = vectors.mean(axis=0)
     np.savetxt(outfile, emb, delimiter=',')
     return
