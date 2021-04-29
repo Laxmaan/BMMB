@@ -18,9 +18,7 @@ if __name__ == '__main__':
     parser.add_argument("-k", help="value of k",type=int,default=6)
     parser.add_argument("-d",help="embedding dimensions",type=int,default=128)
     parser.add_argument('--walk-length', type=int, default=80, help='Length of walk per source. Default is 80.')
-
-	parser.add_argument('--num-walks', type=int, default=10, help='Number of walks per source. Default is 10.')
-
+    parser.add_argument('--num-walks', type=int, default=10, help='Number of walks per source. Default is 10.')
     args = parser.parse_args()
 
     DATA_ROOT = Path("datasets") / 'processed' / f'{args.k}' / 'node2vec'
