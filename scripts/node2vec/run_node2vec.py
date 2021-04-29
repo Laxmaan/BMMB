@@ -4,7 +4,6 @@ from joblib import Parallel, delayed
 import src.node2vec as node2vec
 import numpy as np
 import networkx as nx
-import node2vec
 from pathlib import Path
 from gensim.models import Word2Vec
 
