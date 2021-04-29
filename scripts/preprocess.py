@@ -110,6 +110,7 @@ def process_label(label,k=6):
         make_db_graph(fname, OUT_DIR, k, vocab)
         
         JSON_DIR = PROCESSED / f'{k}' / 'graph2vec' / label / data_dir
+        JSON_DIR.mkdir(exist_ok = True, parents = True)
         gen_graph2vec(OUT_DIR,JSON_DIR)
 
 
