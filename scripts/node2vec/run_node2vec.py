@@ -35,5 +35,23 @@ if __name__ == '__main__':
                                                 args.walk_length,args.num_walks,args.roar) ) for i in range(len(files)) 
                                             )
     
+
+    counts = {'mers':200,'sars':2300,'influenza':2500}
+    newlines = []
+    for line in lines:
+        if 'mers' in line:
+            if counts['mers'] > 0:
+                newlines.append(line)
+                counts['mers'] -= 1
+        elif 'sars' in line:
+            if counts['sars'] > 0:
+                newlines.append(line)
+                counts['sars'] -= 1
+        elif 'influenza' in line:
+            if counts['influenza'] > 0:
+                newlines.append(line)
+                counts['influenza'] -= 1
+
+    print(f"Tasks :{len(newlines)}")
     with open(f'exec_node2vec_{args.k}.sh','w') as f:
-        f.write('\n'.join(lines))
+        f.write('\n'.join(newlines))
