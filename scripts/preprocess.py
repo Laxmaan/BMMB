@@ -31,7 +31,7 @@ def seq_to_db(seq,k,vocab):
             vocab[v] = len(vocab)
 
         edgelist.add(f'{vocab[u]} {vocab[v]}')
-        edges.append([u,v])
+        edges.append([vocab[u],vocab[v]])
 
     edges ={'edges':edges}
     return edgelist,edges
