@@ -21,7 +21,7 @@ files = [x.name for x in RAW.glob("**/**/*")]
 
 def seq_to_db(seq,k,vocab):
     seq = str(seq).upper()
-    if not bool(re.match('^[ATGC]+$', seq)) or len(seq)==0:
+    if not bool(re.match('^[ATGC]+$', seq)):
         return None,None
     n = len(seq)
     edgelist = set()
