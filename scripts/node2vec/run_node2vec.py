@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     lines = Parallel(n_jobs=-1, verbose=50)(
                                                 delayed(process_file)( (MAIN_FILE, OUTPUT_ROOT, files[i], args.d,
-                                                args['walk-length'],args['num-walks']) ) for i in range(len(files)) 
+                                                args.walk_length,args.num_walks) ) for i in range(len(files)) 
                                             )
     
     with open(f'exec_node2vec_{args.k}.sh','w') as f:
