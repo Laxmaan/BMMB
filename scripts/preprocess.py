@@ -51,10 +51,10 @@ def process_record(args):
         json.dump(g1,edgefile)
     
     
-def make_db_graph(filename, OUT_DIR, k,vocab):
+def make_db_graph(filename, OUT_DIR,JSON_DIR, k,vocab):
     ctr = 0
     with open(filename) as f:
-        Gs = Parallel(n_jobs=-1, verbose=50)(delayed(process_record)((i,OUT_DIR,record,k,vocab)) for i,record in enumerate(SeqIO.parse(f,"fasta")))
+        Gs = Parallel(n_jobs=-1, verbose=50)(delayed(process_record)((i,OUT_DIR,JSON_DIR,record,k,vocab)) for i,record in enumerate(SeqIO.parse(f,"fasta")))
 
     
 
@@ -97,7 +97,7 @@ def process_label(label,k=6):
         JSON_DIR = PROCESSED / f'{k}' / 'graph2vec' / label / data_dir
         JSON_DIR.mkdir(exist_ok = True, parents = True)
         
-        make_db_graph(fname, OUT_DIR, k, vocab)
+        make_db_graph(fname, OUT_DIR,JSON_DIR, k, vocab)
         
         
 
