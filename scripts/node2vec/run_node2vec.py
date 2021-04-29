@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     DATA_ROOT = Path("datasets") / 'processed' / f'{args.k}' / 'node2vec'
 
-    OUTPUT_ROOT = Path('scripts/node2vec/emb')
+    OUTPUT_ROOT = Path('scripts/node2vec/emb')/f'{args.k}'
     MAIN_FILE = Path('scripts/node2vec/src/main.py')
     files = [x for x in DATA_ROOT.glob("**/*.edgelist")]
 
@@ -29,5 +29,5 @@ if __name__ == '__main__':
                                                 delayed(process_file)( (MAIN_FILE, OUTPUT_ROOT, files[i]) ) for i in range(len(files)) 
                                             )
     
-    with open('exec_node2vec.sh','w') as f:
+    with open(f'exec_node2vec_{args.k}.sh','w') as f:
         f.write('\n'.join(lines))
