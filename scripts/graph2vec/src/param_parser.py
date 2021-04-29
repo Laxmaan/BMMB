@@ -29,7 +29,7 @@ def parameter_parser():
     parser.add_argument("--workers",
                         type=int,
                         default=4,
-	                help="Number of workers. Default is 4.")
+	                help="Number of workers. Default is 8.")
 
     parser.add_argument("--epochs",
                         type=int,
@@ -55,5 +55,9 @@ def parameter_parser():
                         type=float,
                         default=0.0001,
 	                help="Down sampling rate of features. Default is 0.0001.")
+
+    parser.add_argument('--mers',help="number of mers samples",type=int,default=200)
+    parser.add_argument('--sars',help="number of sars samples",type=int,default=2300)
+    parser.add_argument('--flu',help="number of flu samples",type=int,default=2500)
 
     return parser.parse_args()

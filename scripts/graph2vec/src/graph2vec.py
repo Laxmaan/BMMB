@@ -9,6 +9,8 @@ from tqdm import tqdm
 from joblib import Parallel, delayed
 from param_parser import parameter_parser
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from pathlib import Path
+from collections import defaultdict
 
 class WeisfeilerLehmanMachine:
     """
@@ -60,9 +62,9 @@ def dataset_reader(path):
     :return features: Features hash table.
     :return name: Name of the graph.
     """
-    name = path.strip(".json").split("/")[-1]
+    name = path.stem
     data = json.load(open(path))
-    graph = nx.from_edgelist(data["edges"])
+    graph = nx.from_edgelist(data["edges"]) #todo convert to same read as n2v
 
     if "features" in data.keys():
         features = data["features"].items()
@@ -84,7 +86,7 @@ def feature_extractor(path, rounds):
     doc = TaggedDocument(words=machine.extracted_features, tags=["g_" + name])
     return doc
 
-def save_embedding(output_path, model, files, dimensions):
+def save_embedding(OUTPUT_ROOT, model, files, dimensions):
     """
     Function to save the embedding.
     :param output_path: Path to the embedding csv.
@@ -92,14 +94,22 @@ def save_embedding(output_path, model, files, dimensions):
     :param files: The list of files.
     :param dimensions: The embedding dimension parameter.
     """
-    out = []
+    
+    out = defaultdict(list)
     for f in files:
-        identifier = f.split("/")[-1].strip(".json")
-        out.append([int(identifier)] + list(model.docvecs["g_"+identifier]))
+        identifier = f.stem
+        label = f"{f.parent.parts[4]}/{f.parent.parts[5]}"
+        out[label].append([int(identifier)] + list(model.docvecs["g_"+identifier]))
     column_names = ["type"]+["x_"+str(dim) for dim in range(dimensions)]
-    out = pd.DataFrame(out, columns=column_names)
-    out = out.sort_values(["type"])
-    out.to_csv(output_path, index=None)
+
+    for label,df in out.items():
+        df = pd.DataFrame(out, columns=column_names)
+        df = df.sort_values(["type"])
+
+        output_path = OUTPUT_ROOT / Path(label+".csv")
+
+        Path(output_path).parent.mkdir(exist_ok=True,parents=True)
+        df.to_csv(output_path, index=None)
 
 def main(args):
     """
@@ -107,7 +117,28 @@ def main(args):
     Learn the embedding and save it.
     :param args: Object with the arguments.
     """
-    graphs = glob.glob(args.input_path + "*.json")
+
+    DATA_ROOT = Path("datasets") / 'processed' / f'{args.k}' / 'graph2vec'
+
+    OUTPUT_ROOT = Path('scripts/graph2vec/emb')/f'{args.k}'
+    graphs = [x for x in DATA_ROOT.glob("**/*.json")])
+    counts = {'mers':args.mers,'sars':args.sars,'influenza':args.flu}
+    newlines = []
+
+    for fname in graphs:
+        line = str(fname)
+        if 'mers' in line:
+            if counts['mers'] > 0:
+                newlines.append(fname)
+                counts['mers'] -= 1
+        elif 'sars' in line:
+            if counts['sars'] > 0:
+                newlines.append(fname)
+                counts['sars'] -= 1
+        elif 'influenza' in line:
+            if counts['influenza'] > 0:
+                newlines.append(fname)
+                counts['influenza'] -= 1
     print("\nFeature extraction started.\n")
     document_collections = Parallel(n_jobs=args.workers)(delayed(feature_extractor)(g, args.wl_iterations) for g in tqdm(graphs))
     print("\nOptimization started.\n")
