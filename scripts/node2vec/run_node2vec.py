@@ -127,5 +127,5 @@ if __name__ == '__main__':
     print(f"Tasks :{len(newlines)}")
 
     Parallel(n_jobs=-1, verbose=50)(
-                                                delayed(process_file)( (OUTPUT_ROOT, files[i],args) ) for i in range(len(newlines)) 
+                                                delayed(process_file)( (OUTPUT_ROOT, newlines[i],args) ) for i in range(len(newlines)) 
                                             )
