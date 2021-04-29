@@ -109,7 +109,8 @@ if __name__ == '__main__':
 
     counts = {'mers':args.mers,'sars':args.sars,'influenza':args.flu}
     newlines = []
-    for line in files:
+    for fname in files:
+        line = str(fname)
         if 'mers' in line:
             if counts['mers'] > 0:
                 newlines.append(line)
