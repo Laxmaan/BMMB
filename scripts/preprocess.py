@@ -17,10 +17,10 @@ files = [x.name for x in RAW.glob("**/**/*")]
 def seq_to_db(seq,k,vocab):
     seq = str(seq).upper()
     if not bool(re.match('^[ATGC]+$', seq)):
-        return None
+        return None,None
     n = len(seq)
     edgelist = set()
-    
+    edges = []
     for i in range(n-k+1):
         kmer = seq[i:i+k]
         u = kmer[:-1]
@@ -31,19 +31,24 @@ def seq_to_db(seq,k,vocab):
             vocab[v] = len(vocab)
 
         edgelist.add(f'{vocab[u]} {vocab[v]}')
+        edges.append([u,v])
 
-    return edgelist
+    edges ={'edges':edges}
+    return edgelist,edges
 
 
 
 def process_record(args):
-    idx,OUT_DIR,record,k,vocab = args
-    g = seq_to_db(record.seq, k, vocab)
+    idx,OUT_DIR,JSON_DIR,record,k,vocab = args
+    g,g1 = seq_to_db(record.seq, k, vocab)
     if not g:
         return
 
     with open(OUT_DIR / f'{idx}.edgelist','w') as edgefile:
-                edgefile.write('\n'.join(g))
+        edgefile.write('\n'.join(g))
+
+    with open(JSON_DIR / f'{idx}.json','w') as edgefile:
+        json.dump(g1,edgefile)
     
     
 def make_db_graph(filename, OUT_DIR, k,vocab):
@@ -70,25 +75,9 @@ def make_vocab(k):
             json.dump(vocab, f)
 
 
-def edgelist_to_json(args):
-    fname,JSON_DIR = args
-    out = {}
-    with open(fname) as f:
-        lines = f.readlines()
 
 
-    edges = []
-    for line in lines:
-        u,v = line.split()
-        edges.append([int(u),int(v)])
 
-    out['edges'] = edges
-
-    with open(JSON_DIR / f'{fname.stem}.json','w') as f:
-        json.dump(out,f)
-
-def gen_graph2vec(OUT_DIR, JSON_DIR):
-    Parallel(n_jobs=-1, verbose=50)(delayed(edgelist_to_json)((fname,JSON_DIR)) for fname in OUT_DIR.glob("**/*.edgelist"))
     
 def process_label(label,k=6):
     path = RAW / label
@@ -105,13 +94,12 @@ def process_label(label,k=6):
         print(f'\nprocessing {fname}\n')
         OUT_DIR = PROCESSED / f'{k}' / 'node2vec' / label / data_dir
         OUT_DIR.mkdir(exist_ok = True, parents = True)
-
+        JSON_DIR = PROCESSED / f'{k}' / 'graph2vec' / label / data_dir
+        JSON_DIR.mkdir(exist_ok = True, parents = True)
         
         make_db_graph(fname, OUT_DIR, k, vocab)
         
-        JSON_DIR = PROCESSED / f'{k}' / 'graph2vec' / label / data_dir
-        JSON_DIR.mkdir(exist_ok = True, parents = True)
-        gen_graph2vec(OUT_DIR,JSON_DIR)
+        
 
 
 #read_fasta(RAW/ 'Covid'/ 'mers.fna')
