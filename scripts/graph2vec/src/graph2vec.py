@@ -63,8 +63,7 @@ def dataset_reader(path):
     :return name: Name of the graph.
     """
     name = path.stem
-    data = json.load(open(path))
-    graph = nx.from_edgelist(data["edges"]) #todo convert to same read as n2v
+    graph = nx.read_edgelist(path, nodetype=int, create_using=nx.DiGraph())
 
     if "features" in data.keys():
         features = data["features"].items()
@@ -118,7 +117,7 @@ def main(args):
     :param args: Object with the arguments.
     """
 
-    DATA_ROOT = Path("datasets") / 'processed' / f'{args.k}' / 'graph2vec'
+    DATA_ROOT = Path("datasets") / 'processed' / f'{args.k}' / 'node2vec'
 
     OUTPUT_ROOT = Path('scripts/graph2vec/emb')/f'{args.k}'
     graphs = [x for x in DATA_ROOT.glob("**/*.json")]
