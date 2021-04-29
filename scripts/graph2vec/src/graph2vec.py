@@ -120,7 +120,7 @@ def main(args):
     DATA_ROOT = Path("datasets") / 'processed' / f'{args.k}' / 'node2vec'
 
     OUTPUT_ROOT = Path('scripts/graph2vec/emb')/f'{args.k}'
-    graphs = [x for x in DATA_ROOT.glob("**/*.json")]
+    graphs = [x for x in DATA_ROOT.glob("**/*.edgelist")]
     counts = {'mers':args.mers,'sars':args.sars,'influenza':args.flu}
     newlines = []
 
