@@ -45,11 +45,13 @@ def process_record(args):
     with open(OUT_DIR / f'{idx}.edgelist','w') as edgefile:
                 edgefile.write('\n'.join(g))
     
+    
 def make_db_graph(filename, OUT_DIR, k,vocab):
     ctr = 0
     with open(filename) as f:
         Gs = Parallel(n_jobs=-1, verbose=50)(delayed(process_record)((i,OUT_DIR,record,k,vocab)) for i,record in enumerate(SeqIO.parse(f,"fasta")))
 
+    
 
 def make_vocab(k):
     vocab = {}
@@ -67,6 +69,26 @@ def make_vocab(k):
     with open(vocab_file,'w') as f:
             json.dump(vocab, f)
 
+
+def edgelist_to_json(args):
+    fname,JSON_DIR = args
+    out = {}
+    with open(fname) as f:
+        lines = f.readlines()
+
+
+    edges = []
+    for line in lines:
+        u,v = line.split()
+        edges.append([int(u),int(v)])
+
+    out['edges'] = edges
+
+    with open(JSON_DIR / f'{fname.stem}.json','w') as f:
+        json.dump(out,f)
+
+def gen_graph2vec(OUT_DIR, JSON_DIR):
+    Parallel(n_jobs=-1, verbose=50)(delayed(edgelist_to_json)((fname,JSON_DIR)) for fname in OUT_DIR.glob("**/*.edgelist"))
     
 def process_label(label,k=6):
     path = RAW / label
@@ -81,13 +103,15 @@ def process_label(label,k=6):
     for fname in files:
         data_dir = fname.stem
         print(f'\nprocessing {fname}\n')
-        OUT_DIR = PROCESSED / f'{k}' / label / data_dir
+        OUT_DIR = PROCESSED / f'{k}' / 'node2vec' / label / data_dir
         OUT_DIR.mkdir(exist_ok = True, parents = True)
 
         
         make_db_graph(fname, OUT_DIR, k, vocab)
         
-        
+        JSON_DIR = PROCESSED / f'{k}' / 'graph2vec' / label / data_dir
+        gen_graph2vec(OUT_DIR,JSON_DIR)
+
 
 #read_fasta(RAW/ 'Covid'/ 'mers.fna')
 for label in labels:
