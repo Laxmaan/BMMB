@@ -73,7 +73,7 @@ def learn_embeddings(walks,outfile):
     Learn embeddings by optimizing the Skipgram objective using SGD.
     '''
     walks = [list(map(str, walk)) for walk in walks]
-    model = Word2Vec(walks, vector_size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
+    model = Word2Vec(walks, vector_size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, epochs =args.iter)
     Path(outfile).parent.mkdir(exist_ok=True,parents = True)
     vectors = model.wv.get_normed_vectors()
     emb = vectors.mean(axis=0)
