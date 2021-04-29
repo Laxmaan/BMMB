@@ -90,5 +90,5 @@ def process_label(label,k=6):
         
 
 #read_fasta(RAW/ 'Covid'/ 'mers.fna')
-for label in labels[1:]:
+for label in labels:
     process_label(label)
