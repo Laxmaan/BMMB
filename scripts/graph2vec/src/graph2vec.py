@@ -65,10 +65,7 @@ def dataset_reader(path):
     name = path.stem
     graph = nx.read_edgelist(path, nodetype=int, create_using=nx.DiGraph())
 
-    if "features" in data.keys():
-        features = data["features"].items()
-    else:
-        features = nx.degree(graph)
+    features = nx.degree(graph)
 
     features = {int(k): v for k, v in features}
     return graph, features, name
