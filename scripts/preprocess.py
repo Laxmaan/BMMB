@@ -40,14 +40,18 @@ def seq_to_db(seq,k,vocab):
 
 def process_record(args):
     idx,OUT_DIR,JSON_DIR,record,k,vocab = args
+    outfile = OUT_DIR / f'{idx}.edgelist'
+    joutfile = JSON_DIR / f'{idx}.json'
+    if joutfile.exists():
+        return
     g,g1 = seq_to_db(record.seq, k, vocab)
     if not g:
         return
 
-    with open(OUT_DIR / f'{idx}.edgelist','w') as edgefile:
+    with open(outfile,'w') as edgefile:
         edgefile.write('\n'.join(g))
 
-    with open(JSON_DIR / f'{idx}.json','w') as edgefile:
+    with open(joutfile,'w') as edgefile:
         json.dump(g1,edgefile)
     
     
