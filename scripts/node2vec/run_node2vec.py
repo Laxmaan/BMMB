@@ -10,7 +10,7 @@ def process_file(args):
 
     outfpath = OUTPUT_ROOT / path / f'{fname_stem}.emb'
 
-    return f'python {MAIN_FILE} --input {fpath} --output {outfpath} --dimensions {dim}'
+    return f'python {MAIN_FILE} --input {fpath} --output {outfpath} --dimensions {dim} --directed'
 
 if __name__ == '__main__':
     
