@@ -103,7 +103,7 @@ def save_embedding(OUTPUT_ROOT, model, files, dimensions):
     column_names = ["type"]+["x_"+str(dim) for dim in range(dimensions)]
 
     for label,df in out.items():
-        df = pd.DataFrame(out, columns=column_names)
+        df = pd.DataFrame(df, columns=column_names)
         df = df.sort_values(["type"])
 
         output_path = OUTPUT_ROOT / Path(label+".csv")
