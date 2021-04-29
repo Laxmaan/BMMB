@@ -139,8 +139,10 @@ def main(args):
             if counts['influenza'] > 0:
                 newlines.append(fname)
                 counts['influenza'] -= 1
+
+    print(f"\nFiltered tasks = {len(newlines)}")
     print("\nFeature extraction started.\n")
-    document_collections = Parallel(n_jobs=args.workers)(delayed(feature_extractor)(g, args.wl_iterations) for g in tqdm(graphs))
+    document_collections = Parallel(n_jobs=args.workers)(delayed(feature_extractor)(g, args.wl_iterations) for g in tqdm(newlines))
     print("\nOptimization started.\n")
 
     model = Doc2Vec(document_collections,
