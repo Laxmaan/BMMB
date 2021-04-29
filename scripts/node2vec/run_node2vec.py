@@ -113,15 +113,15 @@ if __name__ == '__main__':
         line = str(fname)
         if 'mers' in line:
             if counts['mers'] > 0:
-                newlines.append(line)
+                newlines.append(fname)
                 counts['mers'] -= 1
         elif 'sars' in line:
             if counts['sars'] > 0:
-                newlines.append(line)
+                newlines.append(fname)
                 counts['sars'] -= 1
         elif 'influenza' in line:
             if counts['influenza'] > 0:
-                newlines.append(line)
+                newlines.append(fname)
                 counts['influenza'] -= 1
 
     print(f"Tasks :{len(newlines)}")
