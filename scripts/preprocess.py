@@ -122,4 +122,4 @@ if __name__ == '__main__':
 
 #read_fasta(RAW/ 'Covid'/ 'mers.fna')
     for label in labels:
-        process_label(label)
+        process_label(label,args.k,args.N)
