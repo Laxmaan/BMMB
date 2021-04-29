@@ -13,6 +13,7 @@ import argparse
 import numpy as np
 import networkx as nx
 import node2vec
+from pathlib import Path
 from gensim.models import Word2Vec
 
 def parse_args():
@@ -85,6 +86,7 @@ def learn_embeddings(walks):
 	'''
 	walks = [list(map(str, walk)) for walk in walks]
 	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
+	Path(args.output).parent.mkdir(exist_ok=True,parents = True)
 	model.wv.save_word2vec_format(args.output)
 	
 	return
