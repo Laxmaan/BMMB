@@ -155,7 +155,7 @@ def main(args):
                     epochs=args.epochs,
                     alpha=args.learning_rate)
 
-    save_embedding(args.output_path, model, graphs, args.dimensions)
+    save_embedding(args.output_path, model, newlines, args.dimensions)
 
 if __name__ == "__main__":
     args = parameter_parser()
