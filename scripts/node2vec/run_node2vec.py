@@ -90,10 +90,10 @@ def process_file(all_args):
     outfpath = OUTPUT_ROOT / path / f'{fname_stem}.emb'
 
     nx_G = read_graph(fpath)
-	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
-	G.preprocess_transition_probs()
-	walks = G.simulate_walks(args.num_walks, args.walk_length)
-	learn_embeddings(walks,outfpath)
+    G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
+    G.preprocess_transition_probs()
+    walks = G.simulate_walks(args.num_walks, args.walk_length)
+    learn_embeddings(walks,outfpath)
 
 
 if __name__ == '__main__':
