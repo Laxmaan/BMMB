@@ -1,0 +1,13 @@
+{
+    "embeddings": [
+      {
+        "tensorName": "My tensor",
+        "tensorShape": [
+          600,
+          50
+        ],
+        "tensorPath": "https://github.com/Laxmaan/BMMB/blob/main/datasets/embs/node2vec/6/node2vec_6_embs.tsv",
+        "metadataPath": "https://github.com/Laxmaan/BMMB/blob/main/datasets/embs/node2vec/6/node2vec_6_metadata.tsv"
+      }
+    ]
+  }

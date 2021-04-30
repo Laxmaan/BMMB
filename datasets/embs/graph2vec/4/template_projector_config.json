@@ -1,0 +1,13 @@
+{
+    "embeddings": [
+      {
+        "tensorName": "My tensor",
+        "tensorShape": [
+          5000,
+          100
+        ],
+        "tensorPath": "https://github.com/Laxmaan/BMMB/blob/main/datasets/embs/graph2vec/4/graph2vec_4_embs.tsv",
+        "metadataPath": "https://github.com/Laxmaan/BMMB/blob/main/datasets/embs/graph2vec/4/graph2vec_4_metadata.tsv"
+      }
+    ]
+  }
