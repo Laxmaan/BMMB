@@ -4,3 +4,5 @@
 /datasets/raw/Influenza/*
 /datasets/processed
 /vocab/*
+/datasets/**/*.csv
+/datasets/**/*.npy
