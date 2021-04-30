@@ -34,9 +34,13 @@ if __name__ == '__main__':
                 covid.to_csv(OUT_DIR / 'covid.csv', index=None)
                 flu.to_csv(OUT_DIR / 'influenza.csv', index=None)
 
+                print(f"k :{k} algo :{alg} label :covid #records :{len(covid)}")
+                print(f"k :{k} algo :{alg} label :influenza #records :{len(flu)}")
+
             else:
                 for fname in csvs:
                     df = pd.read_csv(fname)
-                    name = Path(fname).name
-                    df.to_csv(OUT_DIR / name, index = None)
+                    path = Path(fname)
+                    df.to_csv(OUT_DIR / path.name, index = None)
+                    print(f"k :{k} algo :{alg} label :{path.stem} #records :{len(df)}")
         
