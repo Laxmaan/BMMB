@@ -24,11 +24,11 @@ if __name__=="__main__":
         for label,df in out.items():
             df = pd.DataFrame(df, columns=cols)
             df = df.sort_values(["idx"])
-
+            print(f"k {k} label :{label} len {len(df)}")
             output_path = DATA_ROOT / Path(label+".csv")
 
             Path(output_path).parent.mkdir(exist_ok=True,parents=True)
             df.to_csv(output_path, index=None)
         
-        
+
 
