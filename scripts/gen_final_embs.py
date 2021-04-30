@@ -38,5 +38,5 @@ if __name__ == '__main__':
                 for fname in csvs:
                     df = pd.read_csv(fname)
                     name = Path(fname).name
-                    df.to_csv(OUT_DIR / fname, index = None)
+                    df.to_csv(OUT_DIR / name, index = None)
         
