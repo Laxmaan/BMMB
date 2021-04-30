@@ -14,9 +14,9 @@ if __name__ == '__main__':
 
     for alg in algos:
         ALG_OUT_DIR = DATA_ROOT / alg
-        DATA_DIR = SCRIPTS / alg / 'emb'
+        EMB_DATA_DIR = SCRIPTS / alg / 'emb'
         for k in K:
-            DATA_DIR = DATA_DIR / str(k)
+            DATA_DIR = EMB_DATA_DIR / str(k)
             csvs = [str(x)  for x in DATA_DIR.glob("**/*.csv")]
     
             OUT_DIR = ALG_OUT_DIR / str(k)
