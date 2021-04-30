@@ -13,13 +13,13 @@ if __name__ == '__main__':
     K = [4,6,9]
 
     for alg in algos:
-        OUT_DIR = DATA_ROOT / alg
+        ALG_OUT_DIR = DATA_ROOT / alg
         DATA_DIR = SCRIPTS / alg / 'emb'
         for k in K:
             DATA_DIR = DATA_DIR / str(k)
             csvs = [str(x)  for x in DATA_DIR.glob("**/*.csv")]
-            
-            OUT_DIR = OUT_DIR / str(k)
+    
+            OUT_DIR = ALG_OUT_DIR / str(k)
             OUT_DIR.mkdir(exist_ok = True,parents = True)
             if k == 4:
                 flu = None
