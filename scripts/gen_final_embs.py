@@ -20,7 +20,7 @@ if __name__ == '__main__':
             csvs = [str(x)  for x in DATA_DIR.glob("**/*.csv")]
             
             OUT_DIR = OUT_DIR / str(k)
-
+            OUT_DIR.mkdir(exist_ok = True,parents = True)
             if k == 4:
                 flu = None
                 covid = []
